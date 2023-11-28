@@ -22,7 +22,7 @@ export const createAttachmentService = async (
     }
 
     const attachmentExist = await attachmentRepository.findOne({
-      where: { fileName },
+      where: { fileName, projectId },
     });
     if (attachmentExist) {
       return `project with name ${fileName} already exists`;
@@ -45,4 +45,24 @@ export const createAttachmentService = async (
     console.log(error);
     return error;
   }
+};
+
+export const getAttachmentByTaskIdService = async (taskId: string) => {
+  try {
+    const attachmentRepository = connectionSource.getRepository(Attachments);
+    const attachments = await attachmentRepository.find({
+      where: { taskId },
+    });
+    return attachments;
+  } catch (error) {}
+};
+
+export const getAttachmentByProjectIdService = async (projectId: string) => {
+  try {
+    const attachmentRepository = connectionSource.getRepository(Attachments);
+    const attachments = await attachmentRepository.find({
+      where: { projectId },
+    });
+    return attachments;
+  } catch (error) {}
 };

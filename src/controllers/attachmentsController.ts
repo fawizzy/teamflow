@@ -2,7 +2,11 @@ import { Request, Response } from "express";
 import formidable, { errors as formidableErrors } from "formidable";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
-import { createAttachmentService } from "../services/attachmentsService";
+import {
+  createAttachmentService,
+  getAttachmentByProjectIdService,
+  getAttachmentByTaskIdService,
+} from "../services/attachmentsService";
 import { CustomRequest } from "../interface/customInterface";
 import { attachmentInterface } from "../interface/attachementInterface";
 
@@ -76,5 +80,25 @@ export const createAttachment = async (req: Request, res: Response) => {
   } catch (error) {
     res.send(error);
     return error;
+  }
+};
+
+export const getAttachmentByProjectId = async (req: Request, res: Response) => {
+  try {
+    const { projectId } = req.params;
+    const attachment = await getAttachmentByProjectIdService(projectId);
+    res.status(200).json(attachment);
+  } catch (error) {
+    res.status(400).json({ error: "error getting attachment" });
+  }
+};
+
+export const getAttachmentByTaskId = async (req: Request, res: Response) => {
+  try {
+    const { taskId } = req.params;
+    const attachment = await getAttachmentByTaskIdService(taskId);
+    res.status(200).json(attachment);
+  } catch (error) {
+    res.status(400).json({ error: "error getting attachment" });
   }
 };
