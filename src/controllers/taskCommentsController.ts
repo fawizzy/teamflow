@@ -3,6 +3,7 @@ import { taskCommentInterface } from "../interface/taskCommentInterface";
 import { CustomRequest } from "../interface/customInterface";
 import {
   addTaskCommentService,
+  deleteTaskCommentByIdService,
   getTaskCommentByTaskService,
 } from "../services/taskCommentsService";
 
@@ -28,4 +29,14 @@ export const getCommentsByTask = async (req: Request, res: Response) => {
     const comment = await getTaskCommentByTaskService(id);
     return res.status(200).json(comment);
   } catch (error) {}
+};
+
+export const deleteTaskCommentById = async (req: Request, res: Response) => {
+  try {
+    const { taskId } = req.params;
+    await deleteTaskCommentByIdService(taskId);
+    res.status(200).json("succesfuly deleted");
+  } catch (error) {
+    res.status(400).json({ error: "error getting project" });
+  }
 };

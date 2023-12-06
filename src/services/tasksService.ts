@@ -62,3 +62,17 @@ export const getTaskByUserService = async (userId: string) => {
     return error;
   }
 };
+
+export const deleteTaskByIdService = async (id: string) => {
+  try {
+    const taskRepository = connectionSource.getRepository(Tasks);
+    const taskToRemove = await taskRepository.findOne({ where: { id } });
+    if (!taskToRemove) {
+      return null;
+    }
+    const task = await taskRepository.remove(taskToRemove);
+    return task;
+  } catch (error) {
+    return error;
+  }
+};

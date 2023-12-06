@@ -66,3 +66,19 @@ export const getAttachmentByProjectIdService = async (projectId: string) => {
     return attachments;
   } catch (error) {}
 };
+
+export const deleteAttachmentByIdService = async (id: string) => {
+  try {
+    const attachmentRepository = connectionSource.getRepository(Attachments);
+    const attachmentToRemove = await attachmentRepository.findOne({
+      where: { id },
+    });
+    if (!attachmentToRemove) {
+      return null;
+    }
+    const task = await attachmentRepository.remove(attachmentToRemove);
+    return task;
+  } catch (error) {
+    return error;
+  }
+};

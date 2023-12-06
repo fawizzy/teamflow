@@ -82,3 +82,17 @@ export const getUserByIdService = async (
     return null;
   }
 };
+
+export const deleteUserByIdService = async (id: string) => {
+  try {
+    const userRepository = connectionSource.getRepository(Users);
+    const userToRemove = await userRepository.findOne({ where: { id } });
+    if (!userToRemove) {
+      return null;
+    }
+    const task = await userRepository.remove(userToRemove);
+    return task;
+  } catch (error) {
+    return error;
+  }
+};

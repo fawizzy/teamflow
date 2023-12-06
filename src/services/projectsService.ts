@@ -63,3 +63,18 @@ export const getProjectByUserService = async (userId: string) => {
     return error;
   }
 };
+
+
+export const deleteProjectByIdService = async (id: string) => {
+  try {
+    const projectRepository = connectionSource.getRepository(Projects);
+    const projectToRemove = await projectRepository.findOne({ where: { id } });
+    if (!projectToRemove) {
+      return null
+    }
+    const task = await projectRepository.remove(projectToRemove);
+    return task;
+  } catch (error) {
+    return error;
+  }
+};

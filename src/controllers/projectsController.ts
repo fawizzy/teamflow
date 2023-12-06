@@ -2,6 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import { projectInterface } from "../interface/projectInterface";
 import {
   createProjectService,
+  deleteProjectByIdService,
   getProjectByIdService,
   getProjectByUserService,
 } from "../services/projectsService";
@@ -74,4 +75,14 @@ export const getProjectByIdController = async (
   const { id } = req.params;
   const project = await getProjectByIdService(id);
   return res.status(200).json(project);
+};
+
+export const deleteProjectById = async (req: Request, res: Response) => {
+  try {
+    const { projectId } = req.params;
+    await deleteProjectByIdService(projectId);
+    res.status(200).json("succesfuly deleted");
+  } catch (error) {
+    res.status(400).json({ error: "error getting project" });
+  }
 };

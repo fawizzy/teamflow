@@ -41,3 +41,19 @@ export const getTaskCommentByTaskService = async (taskId: string) => {
     return error;
   }
 };
+
+export const deleteTaskCommentByIdService = async (id: string) => {
+  try {
+    const taskCommentRepository = connectionSource.getRepository(TaskComments);
+    const taskCommentToRemove = await taskCommentRepository.findOne({
+      where: { id },
+    });
+    if (!taskCommentToRemove) {
+      return null;
+    }
+    const task = await taskCommentRepository.remove(taskCommentToRemove);
+    return task;
+  } catch (error) {
+    return error;
+  }
+};

@@ -4,6 +4,7 @@ import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 import {
   createAttachmentService,
+  deleteAttachmentByIdService,
   getAttachmentByProjectIdService,
   getAttachmentByTaskIdService,
 } from "../services/attachmentsService";
@@ -98,6 +99,16 @@ export const getAttachmentByTaskId = async (req: Request, res: Response) => {
     const { taskId } = req.params;
     const attachment = await getAttachmentByTaskIdService(taskId);
     res.status(200).json(attachment);
+  } catch (error) {
+    res.status(400).json({ error: "error getting attachment" });
+  }
+};
+
+export const deleteAttachmentById = async (req: Request, res: Response) => {
+  try {
+    const { attachmentId } = req.params;
+    const attachment = await deleteAttachmentByIdService(attachmentId);
+    res.status(200).json("succesfuly deleted");
   } catch (error) {
     res.status(400).json({ error: "error getting attachment" });
   }

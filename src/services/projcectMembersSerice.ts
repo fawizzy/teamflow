@@ -69,3 +69,20 @@ export const createProjectMemberService = async (
     return error;
   }
 };
+
+export const deleteProjectMemberByIdService = async (id: string) => {
+  try {
+    const projectMemberRepository =
+      connectionSource.getRepository(ProjectMembers);
+    const projcectMemberToRemove = await projectMemberRepository.findOne({
+      where: { id },
+    });
+    if (!projcectMemberToRemove) {
+      return null;
+    }
+    const task = await projectMemberRepository.remove(projcectMemberToRemove);
+    return task;
+  } catch (error) {
+    return error;
+  }
+};
