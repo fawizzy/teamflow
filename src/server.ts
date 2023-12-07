@@ -8,9 +8,14 @@ const projectRoute = require("./routes/projectRoute");
 const taskRoute = require("./routes/taskRoute");
 const taskComment = require("./routes/taskCommentsRoute");
 const attachmentRoute = require("./routes/attachmentRoute");
+const swaggerUi = require("swagger-ui-express");
+const swaggerOptions = require("./swagger");
 
 const app = express();
 const port = process.env.PORT;
+
+//  Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOptions));
 
 // Define a route
 app.use(express.json());
@@ -30,6 +35,7 @@ connectionSource
     console.log("Database Connected");
   })
   .catch((error) => console.log(error));
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
